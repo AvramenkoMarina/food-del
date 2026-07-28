@@ -1,10 +1,15 @@
 import mongoose from "mongoose";
 
 export const connectDB = async () => {
+  const mongoUri = process.env.MONGODB_URI;
+
+  if (!mongoUri) {
+    console.error("Missing MONGODB_URI in environment variables");
+    process.exit(1);
+  }
+
   await mongoose
-    .connect(
-      "mongodb+srv://marerror:501518@cluster0.hxuigmu.mongodb.net/food-del?appName=Cluster0",
-    )
+    .connect(mongoUri)
     .then(() => {
       console.log("DB Connected");
     })

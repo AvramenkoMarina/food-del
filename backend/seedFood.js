@@ -1,3 +1,4 @@
+import "dotenv/config";
 import fs from "fs";
 import path from "path";
 import { fileURLToPath } from "url";
@@ -43,10 +44,13 @@ const food_list = [
   { name: "Cooked Noodles", image: "food_32.png", price: 15, description: "Food provides essential nutrients for overall health and well-being", category: "Noodles" },
 ];
 
-const MONGO_URI =
-  "mongodb+srv://marerror:501518@cluster0.hxuigmu.mongodb.net/food-del?appName=Cluster0";
-
 const seed = async () => {
+  const mongoUri = process.env.MONGODB_URI;
+  if (!mongoUri) {
+    console.error("Missing MONGODB_URI in environment variables");
+    process.exit(1);
+  }
+
   if (!fs.existsSync(uploadsDir)) {
     fs.mkdirSync(uploadsDir, { recursive: true });
   }
@@ -61,7 +65,7 @@ const seed = async () => {
     fs.copyFileSync(src, dest);
   }
 
-  await mongoose.connect(MONGO_URI);
+  await mongoose.connect(mongoUri);
   await foodModel.deleteMany({});
   await foodModel.insertMany(food_list);
 
