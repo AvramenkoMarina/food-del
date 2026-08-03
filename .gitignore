@@ -6,16 +6,13 @@ dist/
 build/
 
 # env & secrets
-.env
-.env.*
 !.env.example
 !**/.env.example
 
-# uploads
-backend/uploads/
+
 
 # OS / IDE
 .DS_Store
 *.log
-.vscode/
 .idea/
+config.bat
